@@ -1,0 +1,153 @@
+import java.util.Scanner; //class Scanner untuk mengambil input dari keyboard
+
+// Interface Phone sebagai (blueprint/kontrak)
+interface Phone {
+    int MAX_VOLUME = 100; // Konstanta Nilai volume maksimal
+    int MIN_VOLUME = 0;   // Konstanta Nilai volume minimal
+    
+    void powerOn();   // Method abstrak tanpa body untuk menyalakan HP
+    void powerOff();  // Method abstrak untuk mematikan HP
+    void volumeUp();  // Method abstrak untuk menambah volume
+    void volumeDown(); // Method abstrak untuk mengurangi volume
+}
+
+// Class PhoneUser sebagai "Controller" atau Pengguna HP
+class PhoneUser {
+    private Phone phone; // Variabel referensi dari Interface (Polimorfisme)
+
+    // Constructor Menghubungkan user dengan objek HP
+    public PhoneUser(Phone phone) {
+        this.phone = phone;
+    }
+
+    // Method untuk menyalakan HP
+    void turnOnThePhone() {
+        this.phone.powerOn();
+    }
+
+    // Method untuk mematikan HP
+    void turnOffThePhone() {
+        this.phone.powerOff();
+    }
+
+    // Method untuk menaikkan volume melalui user
+    void makePhoneLouder() {
+        this.phone.volumeUp();
+    }
+
+    // Method untuk menurunkan volume melalui user
+    void makePhoneSilent() {
+        this.phone.volumeDown();
+    }
+}
+
+// Class Infinix yang mengimplementasikan interface Phone
+// merupakan "Concrete Class" (Kelas Nyata)
+class Infinix implements Phone {
+    private int volume;      // Atribut untuk menyimpan nilai volumet
+    private boolean isPowerOn; // Atribut status HP (true/nyala, false/mati)
+
+    // Constructor Memberikan nilai awal saat objek dibuat
+    public Infinix() {
+        this.volume = 50; // Volume default diatur ke 50
+    }
+
+    // Implementasi method powerOn 
+    @Override
+    public void powerOn() {
+        isPowerOn = true; //ubah status jadi nyala
+        System.out.println("Handphone menyala...");
+        System.out.println("Selamat datang di INFINIX");
+        System.out.println("Android version 14");
+    }
+
+    // Implementasi method powerOff 
+    @Override
+    public void powerOff() {
+        isPowerOn = false; //ubah status jadi mati
+        System.out.println("Handphone dimatikan.");
+    }
+
+    // Implementasi method volumeUp dengan logika pengecekan status HP
+    @Override
+    public void volumeUp() {
+        if (isPowerOn) { //cek apakah HP menyala
+            if (this.volume == MAX_VOLUME) { //jika volume sudah maksimal
+                System.out.println("Volume Full!!");
+                System.out.println("Sudah " + this.getVolume() + "%");
+            } else {
+                this.volume += 10; // tambah volume 10
+                System.out.println("Volume sekarang: " + this.getVolume() + "%");
+            }
+        } else {
+            System.out.println("Nyalakan HP terlebih dahulu!"); // jika HP mati
+        }
+    }
+
+    // Implementasi method volumeDown dengan logika pengecekan status HP
+    @Override
+    public void volumeDown() {
+        if (isPowerOn) { // ccek apakah HP menyala
+            if (this.volume == MIN_VOLUME) { // jika volume sudah minimum
+                System.out.println("Volume sudah paling rendah (0%)");
+            } else {
+                this.volume -= 10; // kurangi volume 10
+                System.out.println("Volume sekarang: " + this.getVolume() + "%");
+            }
+        } else {
+            System.out.println("Nyalakan HP terlebih dahulu!"); // jika HP mati
+        }
+    }
+
+    // method mengambil nilai volume saat ini
+    public int getVolume() {
+        return this.volume;
+    }
+}
+
+// Main Class sebagai titik awal jalannya program
+class Main {
+    public static void main(String[] args) {
+        // Membuat objek nyata dari Infinix
+        // Gunakan tipe Interface 'Phone' agar fleksibel (Polimorfisme)
+        Phone infinix = new Infinix(); // menghubungkan user dengan HP
+
+        // Membuat objek user dan memberikannya HP 'Infinix' yang sudah dibuat
+        PhoneUser user = new PhoneUser(infinix);
+
+        // Menjalankan aksi awal: Menyalakan HP
+        user.turnOnThePhone();
+
+        Scanner input = new Scanner(System.in);
+        String aksi;
+
+        // Loop menu
+        while (true) {
+            System.out.println("\n--- APLIKASI INTERFACE HP ---");
+            System.out.println("[1] Nyalakan HP");
+            System.out.println("[2] Matikan HP");
+            System.out.println("[3] Perbesar Volume");
+            System.out.println("[4] Kecilkan Volume");
+            System.out.println("[0] Keluar");
+            System.out.println("-----------------------------");
+            System.out.print("Pilih aksi > ");
+            aksi = input.nextLine(); // membaca input user
+
+            // Logika pemilihan menu
+            if (aksi.equals("1")) {
+                user.turnOnThePhone(); // panggil method nyalakan HP
+            } else if (aksi.equals("2")) {
+                user.turnOffThePhone(); // panggil method matikan HP
+            } else if (aksi.equals("3")) {
+                user.makePhoneLouder(); // panggil method volume up
+            } else if (aksi.equals("4")) {
+                user.makePhoneSilent(); // panggil method volume down
+            } else if (aksi.equals("0")) {
+                System.out.println("Keluar dari aplikasi...");
+                System.exit(0); // Menghentikan/keluar program
+            } else {
+                System.out.println("Aksi tidak tersedia!");//jika input tidak valid
+            }
+        }
+    }
+}
