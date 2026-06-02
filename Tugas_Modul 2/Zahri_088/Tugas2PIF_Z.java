@@ -1,0 +1,62 @@
+public class Tugas2PIF_Z {
+    static class Perpustakaan {
+        String judul, pengarang;
+        int tahunTerbit;
+
+        public Perpustakaan(String judul, String pengarang, int tahunTerbit) {
+            this.judul = judul;
+            this.pengarang = pengarang;
+            this.tahunTerbit = tahunTerbit;
+        }
+
+        public void tampilkan() {
+            System.out.println("Judul          : " + judul);
+            System.out.println("Pengarang      : " + pengarang);
+            System.out.println("Tahun Terbit   : " + tahunTerbit);
+        }
+    }
+
+    static class Buku extends Perpustakaan {
+        String penerbit, kategori;
+        int stok;
+
+        public Buku(String judul, String pengarang, int tahunTerbit, String penerbit, String kategori, int stok) {
+            super(judul, pengarang, tahunTerbit);
+            this.penerbit = penerbit;
+            this.kategori = kategori;
+            this.stok = stok;
+        }
+
+        public void Hasil() {
+            System.out.println("========== BUKU ==========");
+            super.tampilkan();
+            System.out.println("Penerbit       : " + penerbit);
+            System.out.println("Kategori       : " + kategori);
+            System.out.println("Stok           : " + stok + "\n");
+        }
+    }
+
+    static class Novel extends Perpustakaan {
+        String kategoriNovel, status;
+
+        public Novel(String judul, String pengarang, int tahunTerbit, String kategoriNovel, String status) {
+            super(judul, pengarang, tahunTerbit);
+            this.kategoriNovel = kategoriNovel;
+            this.status = status;
+        }
+
+        public void Hasil() {
+            System.out.println("========== NOVEL =========");
+            super.tampilkan();
+            System.out.println("Kategori Novel : " + kategoriNovel);
+            System.out.println("Status Pinjam  : " + status + "\n");
+        }
+    }
+
+    public static void main(String[] args) {
+        Buku b1 = new Buku("Strategi Pendidikan", "Muhammad Zahri", 2028, "UTM Press", "Pendidikan", 10);
+        Novel n1 = new Novel("Negeri 5 Menara", "Zahri Ramadani", 2009, "Religi", "Tersedia");
+        b1.Hasil();
+        n1.Hasil();
+    }
+}
