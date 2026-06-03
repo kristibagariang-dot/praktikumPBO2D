@@ -1,159 +1,81 @@
-import java.util.Scanner;
-class Transaksi {
-    String nama;
-    String nis;
+class Pegawai {
+    String NIK, nama;
+    int kehadiran;
+    double gaji;
 
-    Transaksi(String nama, String nis) {
+    public Pegawai(String NIK, String nama, int kehadiran, double gaji) {
+        this.NIK = NIK;
         this.nama = nama;
-        this.nis = nis;
+        this.kehadiran = kehadiran;
+        this.gaji = gaji;
+    }
+
+    double rekapGaji() {
+        return 0; // akan dioverride
     }
 
     void tampilData() {
-        System.out.println("Nama Siswa : " + nama);
-        System.out.println("NIS        : " + nis);
-    }
-
-    // Polymorphism (akan dioverride)
-    int hitungTotal() {
-        return 0;
+        System.out.println("NIK: " + NIK);
+        System.out.println("Nama: " + nama);
+        System.out.println("Kehadiran: " + kehadiran);
+        System.out.println("Gaji Pokok: " + gaji);
     }
 }
-class PembayaranSPP extends Transaksi {
-    String bulan;
-    int biayaPokok;
-    int denda = 0;
-    final int admin = 5000;
+class PegawaiKontrak extends Pegawai {
+    int masaKontrak;
+    double uangMakan;
 
-    PembayaranSPP(String nama, String nis, String bulan, 
-            int biayaPokok, int tanggalBayar) {
-        super(nama, nis);
-        this.bulan = bulan;
-        this.biayaPokok = biayaPokok;
-
-        // Kondisi denda
-        if (tanggalBayar > 10) {
-            denda = 15000;
-        }
-    }
-
-    // Override (Modul 3 - Polymorphism)
-    @Override
-    int hitungTotal() {
-        return biayaPokok + admin + denda;
-    }
-
-    void tampilSPP() {
-        tampilData();
-        System.out.println("Bulan      : " + bulan);
-        System.out.println("Biaya Pokok: " + biayaPokok);
-        System.out.println("Denda      : " + denda);
-        System.out.println("Admin      : " + admin);
-        System.out.println("Total Bayar: " + hitungTotal());
-    }
-}
-class PembayaranSeragam extends Transaksi {
-    String ukuran;
-    int hargaDasar;
-    int tambahanUkuran = 0;
-    final int admin = 5000;
-
-    PembayaranSeragam(String nama, String nis, 
-            String ukuran, int hargaDasar) {
-        super(nama, nis);
-        this.ukuran = ukuran;
-        this.hargaDasar = hargaDasar;
-
-        // Tambahan ukuran XL
-        if (ukuran.equalsIgnoreCase("XL")) {
-            tambahanUkuran = 20000;
-        }
+    public PegawaiKontrak(String NIK, String nama, int masaKontrak, int kehadiran, double gaji) {
+        super(NIK, nama, kehadiran, gaji);
+        this.masaKontrak = masaKontrak;
+        this.uangMakan = 15000 * kehadiran;
     }
 
     @Override
-    int hitungTotal() {
-        return hargaDasar + tambahanUkuran + admin;
+    double rekapGaji() {
+        return uangMakan + gaji;
     }
 
-    void tampilSeragam() {
-        tampilData();
-        System.out.println("Ukuran     : " + ukuran);
-        System.out.println("Harga Dasar: " + hargaDasar);
-        System.out.println("Tambahan   : " + tambahanUkuran);
-        System.out.println("Admin      : " + admin);
-        System.out.println("Total Bayar: " + hitungTotal());
+    @Override
+    void tampilData() {
+        super.tampilData();
+        System.out.println("Masa Kontrak: " + masaKontrak);
+        System.out.println("Uang Makan: " + uangMakan);
+        System.out.println("Total Gaji: " + rekapGaji());
     }
 }
+class PegawaiTetap extends Pegawai {
+    double tunjangan = 630000;
+    double uangMakan;
 
- class Main {
+    public PegawaiTetap(String NIK, String nama, int kehadiran, double gaji) {
+        super(NIK, nama, kehadiran, gaji);
+        this.uangMakan = 15000 * kehadiran;
+    }
+
+    @Override
+    double rekapGaji() {
+        return tunjangan + uangMakan + gaji;
+    }
+
+    @Override
+    void tampilData() {
+        super.tampilData();
+        System.out.println("Tunjangan: " + tunjangan);
+        System.out.println("Uang Makan: " + uangMakan);
+        System.out.println("Total Gaji: " + rekapGaji());
+    }
+}
+public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        
+        Pegawai p1 = new PegawaiKontrak("K001", "Andi", 6, 20, 2000000);
+        Pegawai p2 = new PegawaiTetap("T001", "Budi", 22, 3000000);
 
-        System.out.println("=== LOGIN SISTEM ===");
-        System.out.print("Masukkan ID: ");
-        String id = input.nextLine();
+        System.out.println("=== Pegawai Kontrak ===");
+        p1.tampilData();
 
-        System.out.print("Masukkan Password: ");
-        String password = input.nextLine();
-
-        String adminID = "admin";
-        String adminPass = "12345";
-
-        boolean isAdmin = false;
-
-        // CEK LOGIN
-        if (id.equals(adminID) && password.equals(adminPass)) {
-            isAdmin = true;
-            System.out.println("Login Admin Berhasil!\n");
-        } else {
-            System.out.println("Login User (Siswa)\n");
-        }
-
-        // INPUT DATA SISWA
-        System.out.print("Nama: ");
-        String nama = input.nextLine();
-
-        System.out.print("NIS: ");
-        String nis = input.nextLine();
-
-        System.out.println("\n1. Pembayaran SPP");
-        System.out.println("2. Pembayaran Seragam");
-        System.out.print("Pilih: ");
-        int pilih = input.nextInt();
-
-        if (pilih == 1) {
-            input.nextLine();
-            System.out.print("Bulan: ");
-            String bulan = input.nextLine();
-
-            System.out.print("Biaya Pokok: ");
-            int biaya = input.nextInt();
-
-            System.out.print("Tanggal Bayar: ");
-            int tanggal = input.nextInt();
-
-            PembayaranSPP spp = new PembayaranSPP(nama, nis, 
-                    bulan, biaya, tanggal);
-            System.out.println("\n=== RINCIAN SPP ===");
-            spp.tampilSPP();
-
-        } else if (pilih == 2) {
-            input.nextLine();
-            System.out.print("Ukuran (S/M/L/XL): ");
-            String ukuran = input.nextLine();
-
-            System.out.print("Harga Dasar: ");
-            int harga = input.nextInt();
-
-            PembayaranSeragam seragam = new PembayaranSeragam(nama, 
-                    nis, ukuran, harga);
-            System.out.println("\n=== RINCIAN SERAGAM ===");
-            seragam.tampilSeragam();
-        }
-
-        // FITUR KHUSUS ADMIN
-        if (isAdmin) {
-            System.out.println("\n[AKSES ADMIN]");
-            System.out.println("Admin bisa mengedit data (simulasi)");
-        }
+        System.out.println("\n=== Pegawai Tetap ===");
+        p2.tampilData();
     }
-
+}
