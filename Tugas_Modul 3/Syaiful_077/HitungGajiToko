@@ -1,0 +1,52 @@
+import java.util.Scanner;
+
+public class HitungGajiToko {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        
+        // Konstanta Gaji
+        final int GAJI_AWAL = 1000000;
+        final int TUNJANGAN_HADIR = 5000;
+        final int UPAH_LEMBUR = 20000;
+
+        System.out.println("=== Program Penghitung Gaji Pegawai ===");
+        System.out.println("Pilih Golongan Pegawai:");
+        System.out.println("1. Kasir");
+        System.out.println("2. Pramuniaga");
+        System.out.print("Masukkan pilihan (1/2): ");
+        int pilihan = input.nextInt();
+
+        System.out.print("Masukkan jumlah hari kehadiran (tepat waktu): ");
+        int hadir = input.nextInt();
+
+        int totalGaji = 0;
+
+        if (pilihan == 1) {
+            // Perhitungan Gaji Kasir
+            totalGaji = GAJI_AWAL + (hadir * TUNJANGAN_HADIR);
+            System.out.println("\n--- Rincian Gaji Kasir ---");
+        } else if (pilihan == 2) {
+            // Perhitungan Gaji Pramuniaga
+            System.out.print("Masukkan jumlah hari lembur: ");
+            int lembur = input.nextInt();
+            
+            totalGaji = GAJI_AWAL + (hadir * TUNJANGAN_HADIR) + (lembur * UPAH_LEMBUR);
+            System.out.println("\n--- Rincian Gaji Pramuniaga ---");
+        } else {
+            System.out.println("Pilihan tidak valid!");
+            return;
+        }
+
+        // Menampilkan Output
+        System.out.println("Gaji Pokok     : Rp " + GAJI_AWAL);
+        System.out.println("Tunjangan Hadir: Rp " + (hadir * TUNJANGAN_HADIR));
+        if (pilihan == 2) {
+            // Menampilkan lembur hanya jika dia pramuniaga
+            System.out.println("Gaji Lembur    : Rp " + (totalGaji - GAJI_AWAL - (hadir * TUNJANGAN_HADIR)));
+        }
+        System.out.println("---------------------------");
+        System.out.println("Total Gaji     : Rp " + totalGaji);
+        
+        input.close();
+    }
+}
