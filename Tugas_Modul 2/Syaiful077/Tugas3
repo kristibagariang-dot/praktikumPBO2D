@@ -1,4 +1,4 @@
-public class Tugas2 {
+public class Tugas3{
     static class Perpustakaan {
         String judul, pengarang;
         int tahunTerbit;
