@@ -38,7 +38,7 @@ class Karyawan extends Manusia {
     }
 }
 
-public class Latihan1 {
+class Latihan1 {
     public static void main(String[] args) {
 
         Pelajar pelajar1 = new Pelajar();
