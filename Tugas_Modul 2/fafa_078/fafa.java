@@ -57,7 +57,7 @@ class Novel extends Koleksi {
         System.out.println("Status Peminjaman  : " + statusPeminjaman);
     }
 }
-public class Main {
+public class fafa {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
