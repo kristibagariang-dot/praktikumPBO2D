@@ -1,0 +1,16 @@
+package paket2;
+
+import paket1.Orang;
+
+public class Mahasiswa extends Orang {
+
+    public void tampilData() {
+
+        System.out.println("Nama : " + nama);
+
+        System.out.println("Umur : " + umur);
+
+        // alamat tidak bisa diakses
+        // password tidak bisa diakses
+    }
+}
