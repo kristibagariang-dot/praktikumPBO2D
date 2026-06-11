@@ -1,0 +1,28 @@
+package paket3;
+
+import paket1.Orang;
+import paket2.Mahasiswa;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Orang org = new Orang();
+
+        System.out.println("=== AKSES DARI CLASS ORANG ===");
+
+        System.out.println(org.nama);
+
+        // System.out.println(org.umur);
+        // System.out.println(org.alamat);
+        // System.out.println(org.password);
+
+        org.tampilPublic();
+        org.aksesPrivate();
+
+        System.out.println("\n=== AKSES DARI CLASS MAHASISWA ===");
+
+        Mahasiswa mhs = new Mahasiswa();
+        mhs.tampilData();
+    }
+}
