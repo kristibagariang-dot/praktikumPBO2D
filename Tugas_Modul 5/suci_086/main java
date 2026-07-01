@@ -1,0 +1,13 @@
+package tugas3;
+
+import tugas2.Student;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Student s1 = new Student("suci", 18, "230101");
+
+        s1.tampilkanStudent();
+    }
+}
