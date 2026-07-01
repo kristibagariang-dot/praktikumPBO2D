@@ -1,0 +1,18 @@
+package tugas2;
+
+import tugas1.Person;
+
+public class Student extends Person {
+
+    String nim;
+
+    public Student(String nama, int umur, String nim) {
+        super(nama, umur);
+        this.nim = nim;
+    }
+
+    public void tampilkanStudent() {
+        tampilkanData();
+        System.out.println("NIM : " + nim);
+    }
+}
