@@ -1,0 +1,87 @@
+abstract class Pegawai {
+
+    String nik;
+    String nama;
+    int kehadiran;
+    double gaji;
+
+    public Pegawai(String nik, String nama,
+                   int kehadiran, double gaji) {
+        this.nik = nik;
+        this.nama = nama;
+        this.kehadiran = kehadiran;
+        this.gaji = gaji;
+    }
+
+    public abstract double rekapGaji();
+
+    public abstract void tampilData();
+}
+
+class PegawaiTetap extends Pegawai {
+
+    double tunjangan = 630000;
+
+    public PegawaiTetap(String nik, String nama,
+                        int kehadiran, double gaji) {
+        super(nik, nama, kehadiran, gaji);
+    }
+
+    @Override
+    public double rekapGaji() {
+        return gaji + (kehadiran * 15000) + tunjangan;
+    }
+
+    @Override
+    public void tampilData() {
+        System.out.println("Pegawai Tetap");
+        System.out.println("Nama : " + nama);
+        System.out.println("Gaji Bersih : " + rekapGaji());
+    }
+}
+
+class PegawaiKontrak extends Pegawai {
+
+    int masaKontrak;
+
+    public PegawaiKontrak(String nik, String nama,
+                          int masaKontrak,
+                          int kehadiran,
+                          double gaji) {
+        super(nik, nama, kehadiran, gaji);
+        this.masaKontrak = masaKontrak;
+    }
+
+    @Override
+    public double rekapGaji() {
+        return gaji + (kehadiran * 15000);
+    }
+
+    @Override
+    public void tampilData() {
+        System.out.println("Pegawai Kontrak");
+        System.out.println("Nama : " + nama);
+        System.out.println("Gaji Bersih : " + rekapGaji());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Pegawai p1 = new PegawaiTetap(
+                "PT001",
+                "Suci Amalia",
+                25,
+                4000000);
+
+        Pegawai p2 = new PegawaiKontrak(
+                "PK001",
+                "Andi",
+                12,
+                22,
+                3000000);
+
+        p1.tampilData();
+        p2.tampilData();
+    }
+}
